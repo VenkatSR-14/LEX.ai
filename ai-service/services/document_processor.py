@@ -123,15 +123,25 @@ class DocumentProcessor:
                 response = match_chain.invoke({"topic": topic_text, "chapter": chapter_title})
                 
                 try:
-                    # Extract score from response
-                    score = float(response.strip())
-                    if score > best_score and score > 0.6:  # Threshold for matching
+                    # Check response type and extract content appropriately
+                    if isinstance(response, dict):
+                        # Extract the text content from the dictionary
+                        response_text = response.get('text', '')
+                        if not response_text:
+                            # Try other common keys if 'text' is not present
+                            response_text = str(response.get('content', str(response)))
+                    else:
+                        response_text = str(response)
+                        
+                    # Now use strip() on the string
+                    score = float(response_text.strip())
+                    if score > best_score and score > 0.6:
                         best_score = score
                         best_match = chapter
                 except ValueError:
                     # If response is not a valid float, skip this match
                     continue
-            
+                        
             if best_match:
                 matches.append({
                     "syllabus_topic": topic,
@@ -186,10 +196,24 @@ class DocumentProcessor:
         """
         
         response = qa_chain.invoke({"query": query})
-        
+        print(response)
         # Process the response to extract chapters
         chapters = []
-        lines = response.strip().split('\n')
+
+# Handle response based on its type
+        if isinstance(response, dict):
+            # Extract text from the dictionary based on its structure
+            response_text = response.get('result', '')
+            if not response_text:
+                # Try other common keys if 'result' is not present
+                response_text = response.get('answer', '')
+            if not response_text:
+                # If still not found, convert the whole dict to string
+                response_text = str(response)
+        else:
+            response_text = str(response)
+
+        lines = response_text.strip().split('\n')
         
         for line in lines:
             # Skip empty lines
@@ -265,7 +289,21 @@ class DocumentProcessor:
         
         # Process the response to extract metadata
         metadata = {}
-        lines = response.strip().split('\n')
+        
+        # Handle response based on its type
+        if isinstance(response, dict):
+            # Extract text from the dictionary based on its structure
+            response_text = response.get('result', '')
+            if not response_text:
+                # Try other common keys if 'result' is not present
+                response_text = response.get('answer', '')
+                if not response_text:
+                    # If still not found, convert the whole dict to string
+                    response_text = str(response)
+        else:
+            response_text = str(response)
+        
+        lines = response_text.strip().split('\n')
         
         for line in lines:
             if ':' in line:
@@ -273,6 +311,7 @@ class DocumentProcessor:
                 metadata[key.strip()] = value.strip()
         
         return metadata
+
     
     def _extract_key_concepts(self, qa_chain: RetrievalQA) -> List[str]:
         """Extract key concepts from chapter using AI"""
@@ -283,14 +322,28 @@ class DocumentProcessor:
         
         response = qa_chain.invoke({"query": query})
         
+        # Handle response based on its type
+        if isinstance(response, dict):
+            # Extract text from the dictionary based on its structure
+            response_text = response.get('result', '')
+            if not response_text:
+                # Try other common keys if 'result' is not present
+                response_text = response.get('answer', '')
+                if not response_text:
+                    # If still not found, convert the whole dict to string
+                    response_text = str(response)
+        else:
+            response_text = str(response)
+        
         # Process the response to extract concepts
         concepts = []
-        for line in response.strip().split('\n'):
+        for line in response_text.strip().split('\n'):
             concept = line.strip()
             if concept and not concept.isdigit():
                 concepts.append(concept)
         
         return concepts[:10]  # Limit to top 10
+
     
     def _extract_topics(self, qa_chain: RetrievalQA) -> List[str]:
         """Extract main topics from chapter using AI"""
@@ -301,15 +354,25 @@ class DocumentProcessor:
         
         response = qa_chain.invoke({"query": query})
         
+        # Handle response based on its type
+        if isinstance(response, dict):
+            response_text = response.get('result', '')
+            if not response_text:
+                response_text = response.get('answer', '')
+                if not response_text:
+                    response_text = str(response)
+        else:
+            response_text = str(response)
+        
         # Process the response to extract topics
         topics = []
-        for line in response.strip().split('\n'):
+        for line in response_text.strip().split('\n'):
             topic = line.strip()
             if topic and not topic.isdigit():
                 topics.append(topic)
         
         return topics[:15]  # Limit to top 15
-    
+
     def _generate_summary(self, qa_chain: RetrievalQA) -> str:
         """Generate a summary of the chapter using AI"""
         query = """
@@ -318,7 +381,18 @@ class DocumentProcessor:
         """
         
         response = qa_chain.invoke({"query": query})
-        return response.strip()
+        
+        # Handle response based on its type
+        if isinstance(response, dict):
+            summary = response.get('result', '')
+            if not summary:
+                summary = response.get('answer', '')
+                if not summary:
+                    summary = str(response)
+        else:
+            summary = str(response)
+        
+        return summary.strip()
     
     def _estimate_pages(self, char_count: int) -> int:
         """Estimate page count based on character count"""
