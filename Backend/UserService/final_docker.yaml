@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8081:8081" # Host port 8081 maps to container port 8081
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/Users
+      - SPRING_DATASOURCE_USERNAME=pruthvi1405
+      - SPRING_DATASOURCE_PASSWORD=Poojan123
+  
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=pruthvi1405
+      - POSTGRES_PASSWORD=Poojan123
+      - POSTGRES_DB=Users
