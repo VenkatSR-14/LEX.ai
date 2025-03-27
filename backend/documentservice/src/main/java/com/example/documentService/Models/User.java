@@ -31,20 +31,25 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private List<String> roles = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Document> documents = new ArrayList<>();
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }
