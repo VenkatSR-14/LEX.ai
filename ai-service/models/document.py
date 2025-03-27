@@ -1,10 +1,13 @@
+from typing import List, Optional
 from pydantic import BaseModel
-from typing import List, Dict, Any
+from Topic import Topic
+import uuid
 
 class Document(BaseModel):
-    id: str
-    filename: str
-    file_content: str
-    metadata: str
-    potential_chapters: List[Dict[str, Any]]
-    
+    id: uuid.UUID
+    name: str
+    type: str
+    file_path: str
+    topics: Optional[List[Topic]] = []
+
+

@@ -28,7 +28,7 @@ class AIExplainer:
                         {"role": "system", "content": "You are a helpful educational assistant that explains complex concepts in simple terms."},
                         {"role": "user", "content": prompt}
                     ],
-                    max_tokens=500,
+                    max_tokens=10000,
                     temperature=0.7
                 )
                 
