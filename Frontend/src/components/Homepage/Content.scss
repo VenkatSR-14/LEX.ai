@@ -1,0 +1,125 @@
+.cta-section {
+    text-align: center;
+   
+    .hero {
+        position: relative;
+        background: url('/studyspace.jpg') center/cover no-repeat;
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        z-index: 1;
+        overflow: hidden;
+      
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.4); // adjust the opacity here
+          z-index: -1;
+        }
+      
+        h1, p, .get-started {
+          z-index: 1;
+        }
+      }
+      
+    
+      .features {
+        text-align: center;
+        padding: 5rem 2rem;
+      
+        h2 {
+          font-size: 2rem;
+          font-weight: 700;
+          margin-bottom: 2rem;
+        }
+      
+        .feature-grid {
+          display: flex;
+          gap: 2rem;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: stretch;
+        }
+      
+        .feature-box {
+          background: #fff;
+          padding: 2rem 1.5rem;
+          border-radius: 1rem;
+          width: 280px;
+          text-align: left;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          transition: transform 0.3s ease;
+      
+          &:hover {
+            transform: translateY(-5px);
+          }
+      
+          .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+      
+            &.blue { background-color: #eef4ff; }
+            &.green { background-color: #e9fbee; }
+            &.pink { background-color: #fdecef; }
+          }
+      
+          h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+          }
+      
+          .sub {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.2rem;
+          }
+      
+          .desc {
+            font-size: 0.95rem;
+            margin-top: 0.75rem;
+            color: #444;
+          }
+      
+          .arrow {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            color: #888;
+            align-self: flex-start;
+            transition: color 0.2s ease;
+            cursor: default;
+          
+            &:hover {
+              color: #4f46e5; // or any highlight color you prefer
+              cursor: pointer;
+            }
+          }
+          
+          
+        }
+      
+        .explore {
+          margin-top: 3rem;
+          padding: 0.75rem 1.5rem;
+          background-color: #4F46E5;
+          color: white;
+          font-size: 1rem;
+          border: none;
+          border-radius: 0.5rem;
+          cursor: pointer;
+        }
+      }
+      
+  }
+  

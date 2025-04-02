@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: pruthvi1405
+      POSTGRES_PASSWORD: Poojan123
+      POSTGRES_DB: documents_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  document_service:
+    build: .
+    ports:
+      - "5001:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URI: postgresql://pruthvi1405:Poojan123@db:5432/documents_db
+      SECRET_KEY: "mysecret"
+      UPLOAD_FOLDER: "uploads"
+
+volumes:
+  pgdata:

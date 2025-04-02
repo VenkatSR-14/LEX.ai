@@ -1,0 +1,45 @@
+.testimonial {
+    padding: 4rem 2rem;
+    background: #f9f9f9;
+    text-align: center;
+  
+    .card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1rem;
+      }
+  
+      .stars {
+        font-size: 1.2rem;
+        color: #fbbf24;
+        margin-bottom: 1rem;
+      }
+  
+      .quote {
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 1.2rem;
+      }
+  
+      .author {
+        font-weight: bold;
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+      }
+  
+      .role {
+        font-size: 0.9rem;
+        color: #666;
+      }
+    }
+  }
